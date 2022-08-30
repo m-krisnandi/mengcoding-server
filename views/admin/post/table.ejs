@@ -1,0 +1,40 @@
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Judul</th>
+        <th>Penulis</th>
+        <th>Kategori</th>
+        <th>Tag</th>
+        <th>Tanggal</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(let i = 0; i < post.length; i++) { %>
+      <tr>
+        <td><%= i + 1 %></td>
+        <td><%= post[i].title %></td>
+        <td><%= post[i]?.user?.name ?? '-' %></td>
+        <td><%= post[i]?.category?.name ?? '-' %></td>
+      <td>
+        <% post[i].tags.forEach(tag => { %>
+        <span class="badge badge-warning">
+          <%= tag.name %>
+        </span>
+        <% }) %>
+      </td>
+        <td><%= post[i].publish.toLocaleString().split(',')[0] %></td>
+        <td>
+            <form action="/post/delete/<%= post[i]._id %>?_method=DELETE" method="post">
+              <a href="/post/edit/<%= post[i]._id %>" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i>Ubah</a>
+            <button class="btn btn-danger btn-sm" type="submit">
+              <i class="fas fa-trash"></i> Hapus
+            </button>
+          </form>
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+  

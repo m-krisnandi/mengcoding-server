@@ -24,6 +24,11 @@
 <script src="/adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <!-- Summernote -->
 <script src="/adminlte/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- CodeMirror -->
+<script src="/adminlte/plugins/codemirror/codemirror.js"></script>
+<script src="/adminlte/plugins/codemirror/mode/css/css.js"></script>
+<script src="/adminlte/plugins/codemirror/mode/xml/xml.js"></script>
+<script src="/adminlte/plugins/codemirror/mode/htmlmixed/htmlmixed.js"></script>
 <!-- overlayScrollbars -->
 <script src="/adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
@@ -63,6 +68,15 @@
     });
     //Initialize Select2 Elements
     $('.select2').select2()
+
+    // Summernote
+    $('#summernote').summernote()
+
+    // CodeMirror
+    CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+      mode: "htmlmixed",
+      theme: "monokai"
+    });
   });
 </script>
 </body>

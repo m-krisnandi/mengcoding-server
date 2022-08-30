@@ -1,0 +1,194 @@
+<%- include('../../partials/header.ejs') %> <%-
+include('../../partials/navbar.ejs') %> <%-
+include('../../partials/sidebar.ejs') %>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Update</h1>
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/post">Post</a></li>
+            <li class="breadcrumb-item active">Update</li>
+          </ol>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <!-- general form elements -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Form ubah post "<%=post.title%>"</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form action="/post/edit/<%= post._id %>?_method=PUT" method="post" enctype="multipart/form-data">
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="name">Judul</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="title"
+                    id="title"
+                    value="<%=post.title%>"
+                    placeholder="Masukkan judul artikel"
+                  />
+                </div>
+                <div class="form-group">
+                    <label for="content">Konten</label>
+                    <textarea id="summernote" name="content" value="<%=post.content%>">
+                        <%=post.content%>
+                      </textarea>
+                  </div>
+                <div class="form-group">
+                  <label>Kategori</label>
+
+                  <select
+                    class="form-control select2"
+                    style="width: 100%"
+                    name="category"
+                    required
+                  >
+                    <option selected="selected">Pilih kategori</option>
+                    <% category.forEach(category=> { %>
+                    <option value="<%=category._id%>"
+                        <% if(category._id.toString() === post?.category?._id.toString()) { %>
+                            selected
+                        <% } %>
+                        >
+                      <%= category.name %>
+                    </option>
+                    <% }) %>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Series</label>
+
+                  <select
+                    class="form-control select2"
+                    style="width: 100%"
+                    name="series"
+                    required
+                  >
+                    <option selected="selected">Pilih series</option>
+                    <% series.forEach(series=> { %>
+                    <option value="<%=series._id%>"
+                        <% if(series._id.toString() === post?.series?._id.toString()) { %>
+                            selected
+                        <% } %>
+                        >
+                      <%= series.name %>
+                    </option>
+                    <% }) %>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Tag</label>
+                  <div class="select2-purple">
+                    <select
+                      class="form-control select2"
+                      multiple="multiple"
+                      data-placeholder="Pilih tag"
+                      style="width: 100%"
+                      name="tags"
+                      required
+                    >
+                      <% tag.forEach(tag=> { %>
+                      <option value="<%=tag._id%>"
+                        <% post.tags.forEach(postTag => { %>
+                            <% if(tag._id.toString() === postTag._id.toString()) { %>
+                                selected
+                           <% } %>
+                        <% }) %>
+                        >
+                        <%= tag.name %>
+                      </option>
+                      <% }) %>
+                    </select>
+                  </div>
+                </div>
+                <!-- Date -->
+                <div class="form-group">
+                    <label>Publish</label>
+                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                          <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="publish" value="<%= post.publish.toLocaleString().split(',')[0] %>"/>
+                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker" >
+                              <div class="input-group-text" ><i class="fa fa-calendar"></i></div>
+                          </div>
+                      </div>
+                  </div>
+                <div class="form-group">
+                  <label for="image">Gambar</label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    name="image"
+                    id="image"
+                    placeholder="Masukkan gambar"
+                  />
+                  <br />
+                  <img src="http://localhost:3000/uploads/<%= post.thumbnail %>" id="perview" />
+                </div>
+              </div>
+              <!-- /.card-body -->
+
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+</div>
+<!-- /.content-wrapper -->
+
+<%- include('../../partials/footer.ejs') %> <%-
+include('../../partials/js.ejs')%>
+
+<script>
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#perview').attr('src', e.target.result);
+        $('#perview').attr('width', '20%');
+        $('#perview').attr('height', '20%');
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  //Date picker
+  $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+
+  $('#image').change(function () {
+    readURL(this);
+  });
+</script>

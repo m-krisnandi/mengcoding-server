@@ -8,8 +8,11 @@ const flash = require('connect-flash');
 const session = require('express-session');
 
 const usersRouter = require('./app/users/router');
-const dashboardRouter = require('./app/dashboard/router')
-const categoryRouter = require('./app/category/router')
+const dashboardRouter = require('./app/dashboard/router');
+const categoryRouter = require('./app/category/router');
+const tagRouter = require('./app/tag/router');
+const seriesRouter = require('./app/series/router');
+const postRouter = require('./app/post/router');
 
 
 const app = express();
@@ -35,9 +38,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/adminlte',express.static(path.join(__dirname, '/node_modules/admin-lte/')));
 
 // Dashboard Admin
-// app.use('/', usersRouter);
+app.use('/', usersRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/category', categoryRouter);
+app.use('/tag', tagRouter);
+app.use('/series', seriesRouter);
+app.use('/post', postRouter)
 
 
 // catch 404 and forward to error handler

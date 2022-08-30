@@ -1,4 +1,4 @@
-const Category = require('./model');
+const Series = require('./model');
 
 module.exports = {
   index: async (req, res) => {
@@ -7,62 +7,62 @@ module.exports = {
       const alertStatus = req.flash('alertStatus');
       const alert = { message: alertMessage, status: alertStatus };
 
-      const category = await Category.find();
-      res.render('admin/category/view_category', {
-        category,
+      const series = await Series.find();
+      res.render('admin/series/view_series', {
+        series,
         alert,
         name: req.session.user.name,
-        title: 'Halaman kategori',
+        title: 'Halaman series',
       });
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
-      res.redirect('/category');
+      res.redirect('/series');
     }
   },
 
   viewCreate: async (req, res) => {
     try {
-      res.render('admin/category/create', {
+      res.render('admin/series/create', {
         name: req.session.user.name,
-        title: 'Halaman tambah kategori',
+        title: 'Halaman tambah series',
       });
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
-      res.redirect('/category');
+      res.redirect('/series');
     }
   },
 
   actionCreate: async (req, res) => {
     try {
       const {name} = req.body;
-      let category = await Category({name});
-      await category.save();
+      let series = await Series({name});
+      await series.save();
 
-      req.flash('alertMessage', 'Berhasil tambah kategori');
+      req.flash('alertMessage', 'Berhasil tambah series');
       req.flash('alertStatus', 'success');
-      res.redirect('/category');
+      res.redirect('/series');
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
-      res.redirect('/category');
+      res.redirect('/series');
     }
   },
 
   viewEdit: async (req, res) => {
     try {
       const {id} = req.params;
-      const category = await Category.findOne({_id: id});
-      res.render('admin/category/edit', {
-        category,
+      const series = await Series.findOne({_id: id});
+      res.render('admin/series/edit', {
+        series,
         name: req.session.user.name,
-        title: 'Halaman ubah kategori'
+        title: 'Halaman ubah series'
       })
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
-      res.redirect('/category');
+      res.redirect('/series');
     }
   },
 
@@ -70,30 +70,30 @@ module.exports = {
     try {
       const {id} = req.params;
       const {name} = req.body;
-      await Category.findOneAndUpdate({_id: id}, {name});
+      await Series.findOneAndUpdate({_id: id}, {name});
 
-      req.flash('alertMessage', 'Berhasil ubah kategori');
+      req.flash('alertMessage', 'Berhasil ubah series');
       req.flash('alertStatus', 'success');
-      res.redirect('/category');
+      res.redirect('/series');
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
-      res.redirect('/category');
+      res.redirect('/series');
     }
   },
 
   actionDelete: async (req, res) => {
     try {
       const {id} = req.params;
-      await Category.findOneAndRemove({_id: id});
+      await Series.findOneAndRemove({_id: id});
 
-      req.flash('alertMessage', 'Berhasil hapus kategori');
+      req.flash('alertMessage', 'Berhasil hapus series');
       req.flash('alertStatus', 'success');
-      res.redirect('/category');
+      res.redirect('/series');
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
-      res.redirect('/category');
+      res.redirect('/series');
     }
   }
 };
