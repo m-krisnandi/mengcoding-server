@@ -6,6 +6,7 @@ var logger = require('morgan');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
+var cors = require('cors')
 
 const usersRouter = require('./app/users/router');
 const dashboardRouter = require('./app/dashboard/router');
@@ -16,6 +17,7 @@ const postRouter = require('./app/post/router');
 
 
 const app = express();
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
