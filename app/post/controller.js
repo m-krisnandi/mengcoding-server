@@ -18,6 +18,7 @@ module.exports = {
         .populate('series')
         .populate('tags')
         .populate('user');
+        console.log(post.user)
       res.render('admin/post/view_post', {
         post,
         alert,
